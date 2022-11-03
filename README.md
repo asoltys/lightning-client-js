@@ -23,9 +23,17 @@ Once the client is installed you can use it by loading the main class and instan
 const LightningClient = require('clightning-client');
 
 // This should point to your lightning-rpc unix socket, by default in ~/.lightning/lightning-rpc
-const client = new LightningClient('/home/bitcoind/.lightning/lightning-rpc');
+const client = LightningClient('/home/bitcoind/.lightning/lightning-rpc');
 
 // Every call returns a Promise
 client.getinfo()
     .then(info => console.log(info));
+
+// or with await
+id = (await client.getinfo()).id
+res = (await client.listchannels(short_channel_id=null, source=id))
 ```
+
+**NOTE**: RPC calls require **positional arguments**. Only value of key=value args
+are passes and should be in the correct order. Some RPC methods have compulsory args,
+which can be set null, according c-lightning's API.
