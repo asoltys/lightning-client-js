@@ -100,7 +100,7 @@ class LightningClient extends EventEmitter {
         }, this.reconnectWait * 1000);
     }
 
-    call(method, args = []) {
+    call(method, args = {}) {
         const _self = this;
 
         const callInt = ++this.reqcount;
@@ -111,7 +111,7 @@ class LightningClient extends EventEmitter {
             id: ''+callInt
         };
 
-        debug('#%d --> %s %o', callInt, method, args)
+        debug('#%d --> %s %o sendObj: %o', callInt, method, args, sendObj)
 
         // Wait for the client to connect
         return this.clientConnectionPromise
@@ -132,7 +132,10 @@ const protify = s => s.replace(/-([a-z])/g, m => m[1].toUpperCase());
 
 methods.forEach(k => {
     LightningClient.prototype[protify(k)] = function (...args) {
-        return this.call(k, args);
+        return this.call(
+            k,
+            args.length == 1 && args[0].constructor == Object ? args[0] : args
+        );
     };
 });
 
