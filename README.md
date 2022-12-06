@@ -31,9 +31,11 @@ client.getinfo()
 
 // or with await
 id = (await client.getinfo()).id
-res = (await client.listchannels(short_channel_id=null, source=id))
-```
 
-**NOTE**: RPC calls require **positional arguments**. Only value of key=value args
-are passes and should be in the correct order. Some RPC methods have compulsory args,
-which can be set null, according c-lightning's API.
+// a single {key: val} "params" dictionary can be passed (recommended)
+res = (await client.invoice({amount_msat: 12345, label: 'hello', description: 'world', cltv: 42}))
+
+// or positional arguments according c-lightning's API, compulsory arguments
+// should be set null
+res2 = (await client.listchannels(short_channel_id=null, source=id))
+```

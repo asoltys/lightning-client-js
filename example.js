@@ -11,3 +11,6 @@ client.getinfo()
 // async with positional "params" arguments
 id = (await client.getinfo()).id
 res = (await client.listchannels(short_channel_id=null, source=id))
+
+// or as {key:val} object
+res2 = (await client.listchannels({source: id}))
