@@ -46,6 +46,7 @@
   "listoffers",
   "listpays",
   "listpeers",
+  "listpeerchannelss",
   "listsendpays",
   "listtransactions",
   "multifundchannel",
