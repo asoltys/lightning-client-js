@@ -1,5 +1,5 @@
 {
-  "name": "clightning-client",
+  "name": "@asoltys/clightning-client",
   "version": "0.1.6",
   "description": "JavaScript c-lightning client",
   "main": "index.js",
