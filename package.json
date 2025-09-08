@@ -1,19 +1,15 @@
 {
   "name": "@asoltys/clightning-client",
   "version": "0.1.7",
-  "description": "JavaScript c-lightning client",
-  "main": "index.js",
   "repository": "https://github.com/shesek/lightning-client-js",
+  "main": "index.js",
+  "description": "JavaScript c-lightning client",
+  "homepage": "https://github.com/shesek/lightning-client-js",
   "keywords": [
     "lightning",
     "c-lightning",
     "network",
     "bitcoin"
   ],
-  "license": "MIT",
-  "homepage": "https://github.com/shesek/lightning-client-js",
-  "dependencies": {
-    "debug": "^4.1.1",
-    "error": "^7.2.0"
-  }
+  "license": "MIT"
 }
