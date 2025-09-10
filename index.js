@@ -109,7 +109,7 @@ class LightningClient extends EventEmitter {
 					this.once(`res:${callInt}`, (res) =>
 						res.error == null
 							? resolve(res.result)
-							: reject(LightningError(res.error)),
+							: reject(res.error),
 					);
 
 					// Send the command

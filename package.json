@@ -13,7 +13,6 @@
   "license": "MIT",
   "homepage": "https://github.com/shesek/lightning-client-js",
   "dependencies": {
-    "debug": "^4.1.1",
-    "error": "^7.2.0"
+    "debug": "^4.1.1"
   }
 }
