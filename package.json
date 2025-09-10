@@ -1,6 +1,6 @@
 {
   "name": "@asoltys/clightning-client",
-  "version": "0.1.9",
+  "version": "0.1.10",
   "description": "JavaScript c-lightning client",
   "main": "index.js",
   "repository": "https://github.com/shesek/lightning-client-js",
