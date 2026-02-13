@@ -3,11 +3,11 @@ const net = require("net");
 const fs = require("fs");
 const readline = require("readline");
 const { EventEmitter } = require("events");
-const methods = require("./methods");
-
 const defaultRpcPath = path.join(require("os").homedir(), ".lightning");
 const fStat = (...p) => fs.statSync(path.join(...p));
 const fExists = (...p) => fs.existsSync(path.join(...p));
+
+const snakeify = (s) => s.replace(/[A-Z]/g, (m) => `-${m.toLowerCase()}`);
 
 class LightningClient extends EventEmitter {
 	constructor(providedPath = defaultRpcPath) {
@@ -24,7 +24,6 @@ class LightningClient extends EventEmitter {
 			}
 
 			// main data directory provided, default to using the bitcoin mainnet subdirectory
-			// to be removed in v0.2.0
 			else if (fExists(rpcPath, "bitcoin", "lightning-rpc")) {
 				console.error(
 					`WARN: ${rpcPath}/lightning-rpc is missing, using the bitcoin mainnet subdirectory at ${rpcPath}/bitcoin instead.`,
@@ -70,6 +69,22 @@ class LightningClient extends EventEmitter {
 			if (!trimmed) return;
 			const data = JSON.parse(trimmed);
 			this.emit(`res:${data.id}`, data);
+		});
+
+		return new Proxy(this, {
+			get(target, prop, receiver) {
+				if (prop in target || typeof prop === "symbol") {
+					return Reflect.get(target, prop, receiver);
+				}
+				return function (...args) {
+					return target.call(
+						snakeify(prop),
+						args.length === 1 && args[0] != null && args[0].constructor === Object
+							? args[0]
+							: args,
+					);
+				};
+			},
 		});
 	}
 
@@ -117,17 +132,6 @@ class LightningClient extends EventEmitter {
 				}),
 		);
 	}
-}
-
-const protify = (s) => s.replace(/-([a-z])/g, (m) => m[1].toUpperCase());
-
-for (const k of methods) {
-	LightningClient.prototype[protify(k)] = function (...args) {
-		return this.call(
-			k,
-			args.length === 1 && args[0].constructor === Object ? args[0] : args,
-		);
-	};
 }
 
 module.exports = (rpcPath) => new LightningClient(rpcPath);
